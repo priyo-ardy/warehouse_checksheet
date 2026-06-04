@@ -3,14 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\HasActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasActivityLog, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +21,19 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'avatar',
         'name',
         'email',
+        'phone',
         'password',
+        'login_attempts',
+        'is_locked',
+        'last_login',
+        'last_login_from',
+        'user_agent',
+        'is_active',
+        'role',
+        'remark'
     ];
 
     /**
