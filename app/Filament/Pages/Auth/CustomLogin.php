@@ -19,7 +19,6 @@ class CustomLogin extends BaseLogin
 
         $user = User::where('email', $data['email'])->first();
 
-        // if user exists but is not active, log the attempt and deny login
         if ($user && ! $user->is_active) {
             Activity::causedBy($user)
                 ->withProperties(['email' => $data['email'], 'ip' => request()->ip()])
@@ -43,6 +42,10 @@ class CustomLogin extends BaseLogin
         try {
             $this->rateLimit(5);
         } catch (TooManyRequestsException $exception) {
+            Activity::causedBy($user)
+                ->withProperties(['email' => $data['email'], 'ip' => request()->ip()])
+                ->log('Too many request has been made');
+
             $this->getRateLimitedNotification($exception)?->send();
 
             return null;
@@ -69,6 +72,10 @@ class CustomLogin extends BaseLogin
             'department_id' => $sessionUser->department_id,
             'section_id' => $sessionUser->section_id,
         ]);
+
+        Activity::causedBy($user)
+            ->withProperties(['email' => $data['email'], 'ip' => request()->ip(), 'agent' => request()->header('Sec-CH-UA')])
+            ->log('Authentication success');
 
         return app(LoginResponse::class);
     }

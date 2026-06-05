@@ -43,6 +43,7 @@ class HandleUserLoginAttempts
                 $user->is_locked = false;
                 $user->last_login = now();
                 $user->last_login_from = request()->ip();
+                $user->user_agent = request()->userAgent();
 
                 $user->save();
             }

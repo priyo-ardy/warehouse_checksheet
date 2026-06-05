@@ -6,9 +6,14 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+
+use function Symfony\Component\Clock\now;
 
 class UserForm
 {
@@ -30,8 +35,14 @@ class UserForm
                             ->columnSpanFull()
                             ->imagePreviewHeight('350px')
                             ->removeUploadedFileButtonPosition('right')
-                            ->saveRelationshipsUsing(null)
                             ->hiddenLabel()
+                            ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file, Get $get) {
+                                $namaUser = $get('name') ?? 'avatar';
+
+                                $slugName = Str::slug($namaUser);
+
+                                return (string) str($slugName . '-' . now()->format('YmdHis') . '.' . $file->getClientOriginalExtension());
+                            })
                     ])
                     ->columnSpan(3),
                 Section::make()
@@ -44,7 +55,8 @@ class UserForm
                             ->placeholder('Full Name')
                             ->autocomplete(false)
                             ->columnSpan(4)
-                            ->trim(),
+                            ->trim()
+                            ->live(onBlur: true),
                         TextInput::make('email')
                             ->email()
                             ->required()

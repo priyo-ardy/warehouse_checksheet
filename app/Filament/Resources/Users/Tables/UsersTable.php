@@ -2,13 +2,17 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Filament\Exports\UserExporter;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
 use Filament\Actions\ViewAction;
 use Filament\QueryBuilder\Constraints\DateConstraint;
 use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\QueryBuilder\Constraints\TextConstraint;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -137,6 +141,16 @@ class UsersTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
+                Action::make('refresh')
+                    ->label('Refresh')
+                    ->icon(Heroicon::OutlinedArrowPath)
+                    ->tooltip('Refresh')
+                    ->action(fn() => null),
+                ExportAction::make('export')
+                    ->label('Export')
+                    ->icon(Heroicon::OutlinedArrowDownTray)
+                    ->tooltip('Export')
+                    ->exporter(UserExporter::class)
             ]);
     }
 }
