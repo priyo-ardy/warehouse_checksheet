@@ -16,7 +16,7 @@ class EditUser extends EditRecord
     {
         return [
             ViewAction::make()->label('Cancel')->icon(Heroicon::OutlinedArrowUturnLeft),
-            DeleteAction::make()->label('Delete')->icon(Heroicon::Trash),
+            // DeleteAction::make()->label('Delete')->icon(Heroicon::Trash),
         ];
     }
 
