@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Users\Schemas;
 
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
@@ -92,12 +93,25 @@ class UserForm
                             ->mutateDehydratedStateUsing(fn($state) => Hash::make($state))
                             ->revealable()
                             ->columnSpan(4),
+                        Select::make('user_type')
+                            ->label('User Type')
+                            ->options([
+                                'administrator' => 'Administrator',
+                                'user' => 'User',
+                                'leader' => 'Leader',
+                                'spv' => 'Supervisor',
+                                'she' => 'SHE'
+                            ])
+                            ->searchable()
+                            ->native(false)
+                            ->required()
+                            ->columnSpan(3),
                         Textarea::make('remark')
                             ->label('Remark')
                             ->nullable()
                             ->trim()
                             ->disableGrammarly()
-                            ->columnSpan(8)
+                            ->columnSpanFull()
                             ->placeholder('Write additional information here ...')
                     ])
                     ->columns(12)

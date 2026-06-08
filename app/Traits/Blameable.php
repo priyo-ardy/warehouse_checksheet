@@ -5,7 +5,7 @@ namespace App\Traits;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-trait HasBlamable
+trait Blameable
 {
     protected static function bootBlameable()
     {

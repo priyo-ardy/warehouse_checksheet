@@ -98,6 +98,12 @@ class UsersTable
                     ->searchable()
                     ->toggleable()
                     ->alignCenter(),
+                TextColumn::make('user_type')
+                    ->label('User Type')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable()
+                    ->formatStateUsing(fn($state) => ucwords(strtolower(str_replace('_', ' ', $state)))),
                 TextColumn::make('remark')
                     ->label('Remark')
                     ->searchable()
@@ -151,6 +157,6 @@ class UsersTable
                     ->icon(Heroicon::OutlinedArrowDownTray)
                     ->tooltip('Export')
                     ->exporter(UserExporter::class)
-            ]);
+            ])->defaultSort('name', 'asc');
     }
 }

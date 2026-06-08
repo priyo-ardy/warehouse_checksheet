@@ -34,7 +34,8 @@ class User extends Authenticatable
         'user_agent',
         'is_active',
         'role',
-        'remark'
+        'remark',
+        'user_type'
     ];
 
     /**

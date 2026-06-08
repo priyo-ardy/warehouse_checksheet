@@ -21,6 +21,7 @@ class EquipmentExporter extends Exporter
             ExportColumn::make('name')->label('Equipment Name'),
             ExportColumn::make('brand')->label('Brand'),
             ExportColumn::make('serial_no')->label('Serial No.'),
+            ExportColumn::make('leaders.name')->label('Lead Coordinator'),
             ExportColumn::make('is_active')->label('Equipment Status')->formatStateUsing(fn($state) => $state ? 'Active' : 'Not Active'),
         ];
     }

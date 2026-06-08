@@ -11,9 +11,11 @@ use Filament\Actions\ExportAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
 use Filament\QueryBuilder\Constraints\SelectConstraint;
 use Filament\QueryBuilder\Constraints\TextConstraint;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
@@ -26,6 +28,17 @@ class EquipmentsTable
     {
         return $table
             ->columns([
+                ImageColumn::make('image')
+                    ->label('Equipment Image')
+                    ->disk('public')
+                    ->visibility('public')
+                    ->toggleable(),
+                TextColumn::make('equipment_category')
+                    ->label('Category')
+                    ->formatStateUsing(fn($state) => ucwords(strtolower(str_replace('_', ' ', $state))))
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('name')
                     ->label('Equipment Name')
                     ->searchable()
@@ -43,7 +56,17 @@ class EquipmentsTable
                     ->badge()
                     ->formatStateUsing(fn($state) => $state ? 'Active' : 'Not Active')
                     ->color(fn($state) => $state ? 'success' : 'danger')
-                    ->alignCenter()
+                    ->alignCenter(),
+                TextColumn::make('leaders.name')
+                    ->label('Lead Coordinator')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+                TextColumn::make('remark')
+                    ->label('Remark')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable()
             ])
             ->filters([
                 QueryBuilder::make()
