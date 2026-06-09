@@ -25,25 +25,52 @@ class UserForm
                 Section::make()
                     ->description('User Avatar')
                     ->schema([
-                        FileUpload::make('avatar')
-                            ->image()
-                            ->imageEditor()
-                            ->avatar()
-                            ->alignCenter()
-                            ->visibility('public')
-                            ->directory('user-avatar')
-                            ->disk('public')
-                            ->columnSpanFull()
-                            ->imagePreviewHeight('350px')
-                            ->removeUploadedFileButtonPosition('right')
-                            ->hiddenLabel()
-                            ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file, Get $get) {
-                                $namaUser = $get('name') ?? 'avatar';
+                        Section::make()
+                            ->description('User Image')
+                            ->schema([
+                                FileUpload::make('avatar')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->avatar()
+                                    ->alignCenter()
+                                    ->visibility('public')
+                                    ->directory('user-avatar')
+                                    ->disk('public')
+                                    ->columnSpanFull()
+                                    ->imagePreviewHeight('350px')
+                                    ->removeUploadedFileButtonPosition('right')
+                                    ->hiddenLabel()
+                                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file, Get $get) {
+                                        $namaUser = $get('name') ?? 'avatar';
 
-                                $slugName = Str::slug($namaUser);
+                                        $slugName = Str::slug($namaUser);
 
-                                return (string) str($slugName . '-' . now()->format('YmdHis') . '.' . $file->getClientOriginalExtension());
-                            })
+                                        return (string) str($slugName . '-' . now()->format('YmdHis') . '.' . $file->getClientOriginalExtension());
+                                    })
+                            ]),
+                        Section::make()
+                            ->description('Signature')
+                            ->schema([
+                                FileUpload::make('signature')
+                                    ->hiddenLabel()
+                                    ->image()
+                                    ->imageEditor()
+                                    ->alignCenter()
+                                    ->visibility('public')
+                                    ->directory('user-signature')
+                                    ->disk('public')
+                                    ->columnSpanFull()
+                                    ->imagePreviewHeight('350px')
+                                    ->removeUploadedFileButtonPosition('right')
+                                    ->hiddenLabel()
+                                    ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file, Get $get) {
+                                        $namaUser = $get('name') ?? 'avatar';
+
+                                        $slugName = Str::slug($namaUser);
+
+                                        return (string) str($slugName . '-' . now()->format('YmdHis') . '.' . $file->getClientOriginalExtension());
+                                    })
+                            ])
                     ])
                     ->columnSpan(3),
                 Section::make()

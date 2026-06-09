@@ -28,6 +28,8 @@ class ChecksheetResource extends Resource
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationLabel = 'Checksheet';
     protected static ?string $recordTitleAttribute = 'Checksheet';
+    protected static ?string $pluralLabel = 'Checksheets';
+    protected static ?string $modelLabel = 'Checksheet';
 
     public static function form(Schema $schema): Schema
     {
