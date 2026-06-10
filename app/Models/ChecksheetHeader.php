@@ -84,6 +84,11 @@ class ChecksheetHeader extends Model
         return $this->hasMany(ChecksheetDetail::class, 'header_id');
     }
 
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
     protected static function booted()
     {
         static::creating(function ($model) {

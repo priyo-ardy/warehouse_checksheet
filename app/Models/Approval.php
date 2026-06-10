@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class Approval extends Model
 {
-    use HasFactory, Blameable, HasActivityLog;
+    use HasFactory, HasActivityLog;
     protected $table = 'approvals';
 
     protected $fillable = [
@@ -55,13 +55,12 @@ class Approval extends Model
 
                 if ($this->last_approver) {
                     $documentData['doc_status'] = 'approved';
-                    $documentData['is_closed'] = true; // Tambahkan field is_closed jika true
+                    $documentData['is_closed'] = true;
                 }
 
                 $document->update($documentData);
             }
 
-            // Update status approval ini sendiri
             $this->update([
                 'status' => true,
                 'approved_date' => now(),
@@ -82,20 +81,19 @@ class Approval extends Model
                     "doc_status" => 'rejected',
                     "rejected_by " => $user->id,
                     "rejected_date" => now(),
-                    // Asumsi ada kolom reject_reason atau sejenisnya di table checksheet_headers
                     'rejected_reason' => $reason,
                 ]);
             }
 
             $this->update([
-                'status' => false, // false berarti reject
+                'status' => false,
                 'approved_date' => now(),
             ]);
 
             self::where('document_id', $this->document_id)
                 ->where('order', '>', $this->order)
                 ->update([
-                    'status' => false, // false berarti reject
+                    'status' => false,
                     'approved_date' => now(),
                 ]);
         });

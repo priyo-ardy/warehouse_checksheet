@@ -23,6 +23,7 @@ class ApprovalsTable
                 TextColumn::make('document.equipment.equipment_category')->label('Date'),
                 TextColumn::make('document.equipment.name')->label('Equipment Name'),
                 TextColumn::make('document.leader.name')->label('Lead Coordinator'),
+                TextColumn::make('document.creator.name')->label('Created By'),
                 TextColumn::make('document.remark')->label('Remark')
             ])
             ->filters([
