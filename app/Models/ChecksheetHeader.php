@@ -19,6 +19,7 @@ class ChecksheetHeader extends Model
 
     protected $fillable = [
         'code',
+        'doc_status',
         'tanggal',
         'shift',
         'equipment_id',
@@ -89,12 +90,18 @@ class ChecksheetHeader extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function currentApprover()
+    {
+        return $this->hasOne(Approval::class, 'document_id')->where('status', null)->orderBy('order', 'asc');
+    }
+
     protected static function booted()
     {
         static::creating(function ($model) {
+            $currentYear = now()->format('Y');
             $prefix = 'CS-' . now()->format('Ymd') . '-';
 
-            $latestRecord = static::where('code', 'like', $prefix . '%')
+            $latestRecord = static::where('code', 'like', 'CS-' . $currentYear . '%')
                 ->withTrashed()
                 ->orderBy('id', 'desc')
                 ->first();

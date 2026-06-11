@@ -3,11 +3,10 @@
 namespace App\Filament\Resources\Checksheets\Pages;
 
 use App\Filament\Resources\Checksheets\ChecksheetResource;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\RestoreAction;
+use Filament\Actions\Action;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Support\Icons\Heroicon;
 
 class EditChecksheet extends EditRecord
 {
@@ -16,10 +15,13 @@ class EditChecksheet extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ViewAction::make(),
-            DeleteAction::make(),
-            ForceDeleteAction::make(),
-            RestoreAction::make(),
+            Action::make('back')
+                ->label('Back to list')
+                ->tooltip('Back to list')
+                ->icon(Heroicon::OutlinedArrowLeft)
+                ->color('gray')
+                ->url(static::getResource()::getUrl('index')),
+            ViewAction::make()->label('Cancel')->tooltip('Cancel')->icon(Heroicon::OutlinedArrowUturnLeft),
         ];
     }
 }

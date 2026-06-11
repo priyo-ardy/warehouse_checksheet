@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\Checksheets\Pages;
 
 use App\Filament\Resources\Checksheets\ChecksheetResource;
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
+use Filament\Support\Icons\Heroicon;
 
 class ViewChecksheet extends ViewRecord
 {
@@ -13,7 +15,17 @@ class ViewChecksheet extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make(),
+            Action::make('back')
+                ->label('Back to list')
+                ->tooltip('Back to list')
+                ->icon(Heroicon::OutlinedArrowLeft)
+                ->color('gray')
+                ->url(static::getResource()::getUrl('index')),
+            EditAction::make()
+                ->label('Edit')
+                ->tooltip('Edit')
+                ->icon(Heroicon::OutlinedPencilSquare)
+                ->visible(fn($record) => $record->leader_approve === false && $record->doc_status === null),
         ];
     }
 }
